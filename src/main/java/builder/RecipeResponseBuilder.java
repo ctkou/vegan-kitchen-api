@@ -1,6 +1,7 @@
 package builder;
 
 import exception.DatabaseException;
+import exception.InvalidDeleteException;
 import exception.InvalidUpdateException;
 import manager.RecipeManager;
 import model.Recipe;
@@ -66,8 +67,17 @@ public class RecipeResponseBuilder extends ResponseBuilder {
         return response;
     }
 
-    public static Response buildDeleteRecipeResponse(Integer recipeId) throws Exception {
-        return null; // TODO
+    public static Response buildDeleteRecipeResponse(Integer recipeId, SecurityContext securityContext) throws Exception {
+        Response response;
+        try {
+            recipeManager.deleteRecipe(recipeId, securityContext);
+            response = Response.status(NO_CONTENT).build();
+        } catch (DatabaseException exception) {
+            response = Response.status(BAD_REQUEST).entity(buildResponseBody(CONTENT_DELETE_FAIL_MESSAGE, exception.getMessage())).build();
+        } catch (InvalidDeleteException exception) {
+            response = Response.status(FORBIDDEN).entity(buildResponseBody(CONTENT_DELETE_FAIL_MESSAGE, exception.getMessage())).build();
+        }
+        return response;
     }
 
 }

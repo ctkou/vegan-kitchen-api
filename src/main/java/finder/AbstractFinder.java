@@ -137,4 +137,13 @@ public class AbstractFinder {
         }
     }
 
+    public static <R extends Record> void deleteDataObjectByCondition(Table<R> table, Condition condition) throws DatabaseException {
+        try (Connection connection = getDatabaseConnection()) {
+            DSLContext create = DSL.using(connection, MYSQL);
+            create.deleteFrom(table).where(condition).execute();
+        }
+        catch (Exception exception) {
+            throw new DatabaseException("Database error: " + exception.getMessage());
+        }
+    }
 }

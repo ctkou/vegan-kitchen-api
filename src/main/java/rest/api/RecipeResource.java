@@ -48,9 +48,8 @@ public class  RecipeResource {
     @DELETE
     @Authentication
     @Path("{recipe_id}")
-    public Response deleteRecipe(@PathParam("recipe_id") Integer recipeId, @Context SecurityContext securityContext) {
-        securityContext.getUserPrincipal();
-        return null; // TODO
+    public Response deleteRecipe(@PathParam("recipe_id") Integer recipeId, @Context SecurityContext securityContext) throws Exception {
+        return  RecipeResponseBuilder.buildDeleteRecipeResponse(recipeId, securityContext);
     }
 
 }

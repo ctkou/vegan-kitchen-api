@@ -48,4 +48,8 @@ public class RecipeFinder extends AbstractFinder {
         updateDataObject(RECIPE, recipeUpdate);
     }
 
+    public void deleteRecipeById(int recipeId) throws DatabaseException {
+        deleteDataObjectByCondition(RECIPE, RECIPE.RECIPE_ID.equal(recipeId));
+    }
+
 }

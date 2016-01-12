@@ -1,6 +1,7 @@
 package manager;
 
 import exception.DatabaseException;
+import exception.InvalidDeleteException;
 import exception.InvalidUpdateException;
 import finder.RecipeFinder;
 import model.Recipe;
@@ -124,6 +125,16 @@ public class RecipeManager {
 
     private boolean isConsistentIngredientIdSet(Set<Integer> existingIngredientSet, Set<Integer> ingredientUpdateSet) {
         return existingIngredientSet.containsAll(ingredientUpdateSet);
+    }
+
+    public void deleteRecipe(Integer recipeId, SecurityContext securityContext) throws DatabaseException, InvalidDeleteException {
+        Recipe recipe = getRecipeById(recipeId);
+        if (recipe.getUserName().equals(securityContext.getUserPrincipal().getName())) {
+            recipeFinder.deleteRecipeById(recipeId);
+        }
+        else {
+            throw new InvalidDeleteException("user has no permission to delete recipe with id " + recipeId);
+        }
     }
 
 }

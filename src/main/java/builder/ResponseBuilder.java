@@ -14,15 +14,16 @@ public abstract class ResponseBuilder {
 
     protected static final String SESSION_CREATION_SUCCESS = "Login session created";
     protected static final String SESSION_END_SUCCESS = "Session ended successfully";
-
     protected static final String SESSION_END_FAIULRE = "Failed to end session";
     protected static final String FORBIDDEN_MESSAGE = "Lack permission to perform action";
     protected static final String CONTENT_RETRIEVAL_SUCCESS = "Content retrieval success";
     protected static final String CONTENT_RETRIEVAL_FAILURE  = "Content retrieval failed";
     protected static final String CONTENT_CREATION_SUCCESS = "Content creation success";
-    protected static final String CONTENT_CREATION_FAILURE = "Content creation failure";
+    protected static final String CONTENT_CREATION_FAILURE = "Content creation failed";
     protected static final String CONTENT_UPDATE_SUCCESS_MESSAGE = "Content update success";
-    protected static final String CONTENT_UPDATE_FAIL_MESSAGE = "Content update failure";
+    protected static final String CONTENT_UPDATE_FAIL_MESSAGE = "Content update failed";
+    protected static final String CONTENT_DELETE_SUCCESS_MESSAGE = "Content delete success";
+    protected static final String CONTENT_DELETE_FAIL_MESSAGE = "Content delete failed";
 
     protected static Object buildResponseBody(String requestStatusMessage, Object resultContent) {
         HashMap<String, Object> responseBody = new HashMap<>();
