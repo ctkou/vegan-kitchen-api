@@ -1,8 +1,10 @@
 package application;
 
+import manager.MemcachedManager;
 import org.glassfish.jersey.server.ResourceConfig;
 
 import javax.ws.rs.ApplicationPath;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
@@ -12,8 +14,10 @@ import java.util.Properties;
 @ApplicationPath("/")
 public class MyApplication extends ResourceConfig {
 
-    public static final String PROPERTIES_FILE = "config.properties";
+    private static final String PROPERTIES_FILE = "config.properties";
+
     public static Properties properties = new Properties();
+    public static MemcachedManager memcachedManager;
 
     private Properties loadConfiguration() {
         InputStream inputStream = getClass().getClassLoader().getResourceAsStream(PROPERTIES_FILE);
@@ -27,9 +31,10 @@ public class MyApplication extends ResourceConfig {
         return properties;
     }
 
-    public MyApplication() {
-        packages(true, "rest.api", "application.filter");
+    public MyApplication() throws IOException {
+        packages(true, "rest.api", "application");
         loadConfiguration();
+        memcachedManager = new MemcachedManager();
     }
 
 }

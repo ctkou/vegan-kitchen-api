@@ -22,14 +22,14 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Recipe implements Serializable {
 
-	private static final long serialVersionUID = 1895554309;
+	private static final long serialVersionUID = -57649520;
 
 	private Integer recipeId;
 	private String  dishName;
 	private String  summary;
 	private String  serving;
 	private String  dishImageUrl;
-	private Integer authorUserId;
+	private Integer userId;
 
 	public Recipe() {}
 
@@ -39,7 +39,7 @@ public class Recipe implements Serializable {
 		this.summary = value.summary;
 		this.serving = value.serving;
 		this.dishImageUrl = value.dishImageUrl;
-		this.authorUserId = value.authorUserId;
+		this.userId = value.userId;
 	}
 
 	public Recipe(
@@ -48,14 +48,14 @@ public class Recipe implements Serializable {
 		String  summary,
 		String  serving,
 		String  dishImageUrl,
-		Integer authorUserId
+		Integer userId
 	) {
 		this.recipeId = recipeId;
 		this.dishName = dishName;
 		this.summary = summary;
 		this.serving = serving;
 		this.dishImageUrl = dishImageUrl;
-		this.authorUserId = authorUserId;
+		this.userId = userId;
 	}
 
 	public Integer getRecipeId() {
@@ -98,12 +98,12 @@ public class Recipe implements Serializable {
 		this.dishImageUrl = dishImageUrl;
 	}
 
-	public Integer getAuthorUserId() {
-		return this.authorUserId;
+	public Integer getUserId() {
+		return this.userId;
 	}
 
-	public void setAuthorUserId(Integer authorUserId) {
-		this.authorUserId = authorUserId;
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 
 	@Override
@@ -115,7 +115,7 @@ public class Recipe implements Serializable {
 		sb.append(", ").append(summary);
 		sb.append(", ").append(serving);
 		sb.append(", ").append(dishImageUrl);
-		sb.append(", ").append(authorUserId);
+		sb.append(", ").append(userId);
 
 		sb.append(")");
 		return sb.toString();

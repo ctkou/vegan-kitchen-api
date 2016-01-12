@@ -7,6 +7,8 @@ import org.codehaus.plexus.util.IOUtil;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.Properties;
@@ -17,6 +19,7 @@ import java.util.Properties;
 public class TestUtility {
 
     private static ObjectMapper objectMapper = new ObjectMapper();
+    private static SecureRandom secureRandom = new SecureRandom();
 
     private String TEST_DATA_PATH = "../resources/test_data/";
     private String PROPERTIES_FILE = "testconfig/test.config.properties";
@@ -65,16 +68,21 @@ public class TestUtility {
         }
     }
 
+    public String getRandomString(int stringLength) {
+        int encodingBase = 32;
+        return new BigInteger(stringLength * 5, secureRandom).toString(encodingBase);
+    }
+
     public String getStringFromFile(String fileName) throws Exception {
         return IOUtil.toString(this.getClass().getResourceAsStream(TEST_DATA_PATH + fileName));
     }
 
-    public Object getPojoFromFile(String fileName, TypeReference typeReference) throws Exception {
+    public <T> T getPojoFromFile(String fileName, TypeReference typeReference) throws Exception {
         String jsonString = getStringFromFile(fileName);
         return objectMapper.readValue(jsonString, typeReference);
     }
 
-    public Object convertObjectByReferenceType(Object object, TypeReference typeReference) throws Exception {
+    public <T> T convertObjectByReferenceType(Object object, TypeReference typeReference) throws Exception {
         return objectMapper.convertValue(object, typeReference);
     }
 

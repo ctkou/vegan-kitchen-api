@@ -28,7 +28,7 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class RecipeRecord extends UpdatableRecordImpl<RecipeRecord> implements Record6<Integer, String, String, String, String, Integer> {
 
-	private static final long serialVersionUID = 461926295;
+	private static final long serialVersionUID = -1592639705;
 
 	/**
 	 * Setter for <code>vegan_kitchen_api.recipe.recipe_id</code>.
@@ -101,16 +101,16 @@ public class RecipeRecord extends UpdatableRecordImpl<RecipeRecord> implements R
 	}
 
 	/**
-	 * Setter for <code>vegan_kitchen_api.recipe.author_user_id</code>.
+	 * Setter for <code>vegan_kitchen_api.recipe.user_id</code>.
 	 */
-	public void setAuthorUserId(Integer value) {
+	public void setUserId(Integer value) {
 		setValue(5, value);
 	}
 
 	/**
-	 * Getter for <code>vegan_kitchen_api.recipe.author_user_id</code>.
+	 * Getter for <code>vegan_kitchen_api.recipe.user_id</code>.
 	 */
-	public Integer getAuthorUserId() {
+	public Integer getUserId() {
 		return (Integer) getValue(5);
 	}
 
@@ -191,7 +191,7 @@ public class RecipeRecord extends UpdatableRecordImpl<RecipeRecord> implements R
 	 */
 	@Override
 	public Field<Integer> field6() {
-		return RecipeTable.RECIPE.AUTHOR_USER_ID;
+		return RecipeTable.RECIPE.USER_ID;
 	}
 
 	/**
@@ -239,7 +239,7 @@ public class RecipeRecord extends UpdatableRecordImpl<RecipeRecord> implements R
 	 */
 	@Override
 	public Integer value6() {
-		return getAuthorUserId();
+		return getUserId();
 	}
 
 	/**
@@ -292,7 +292,7 @@ public class RecipeRecord extends UpdatableRecordImpl<RecipeRecord> implements R
 	 */
 	@Override
 	public RecipeRecord value6(Integer value) {
-		setAuthorUserId(value);
+		setUserId(value);
 		return this;
 	}
 
@@ -324,7 +324,7 @@ public class RecipeRecord extends UpdatableRecordImpl<RecipeRecord> implements R
 	/**
 	 * Create a detached, initialised RecipeRecord
 	 */
-	public RecipeRecord(Integer recipeId, String dishName, String summary, String serving, String dishImageUrl, Integer authorUserId) {
+	public RecipeRecord(Integer recipeId, String dishName, String summary, String serving, String dishImageUrl, Integer userId) {
 		super(RecipeTable.RECIPE);
 
 		setValue(0, recipeId);
@@ -332,6 +332,6 @@ public class RecipeRecord extends UpdatableRecordImpl<RecipeRecord> implements R
 		setValue(2, summary);
 		setValue(3, serving);
 		setValue(4, dishImageUrl);
-		setValue(5, authorUserId);
+		setValue(5, userId);
 	}
 }

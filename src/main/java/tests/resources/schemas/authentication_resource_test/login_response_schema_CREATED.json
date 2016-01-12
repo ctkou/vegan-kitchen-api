@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://jsonschema.net",
+  "type": "object",
+  "properties": {
+    "result": {
+      "id": "http://jsonschema.net/result",
+      "type": "string",
+      "minLength": 26
+    },
+    "status": {
+      "id": "http://jsonschema.net/status",
+      "type": "string"
+    }
+  },
+  "required": [
+    "result",
+    "status"
+  ]
+}
+

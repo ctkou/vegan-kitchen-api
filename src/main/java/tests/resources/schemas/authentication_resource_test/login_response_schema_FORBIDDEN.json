@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://jsonschema.net",
+  "type": "object",
+  "properties": {
+    "status": {
+      "id": "http://jsonschema.net/status",
+      "type": "string",
+      "enum": [
+        "Lack permission to perform action - Invalid username and/or password"
+      ]
+    }
+  },
+  "required": [
+    "status"
+  ]
+}

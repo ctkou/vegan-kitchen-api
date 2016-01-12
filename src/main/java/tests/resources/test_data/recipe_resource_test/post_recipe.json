@@ -3,7 +3,6 @@
   "summary": "summary 3",
   "serving": "serving 3",
   "dish_image_url": "dish.image.3.com",
-  "author_id": 2,
   "recipe_instructions": [
     {
       "step_number": 1,

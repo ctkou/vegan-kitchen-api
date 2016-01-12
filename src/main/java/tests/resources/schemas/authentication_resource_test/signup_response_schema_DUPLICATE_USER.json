@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://jsonschema.net",
+  "type": "object",
+  "properties": {
+    "result": {
+      "id": "http://jsonschema.net/result",
+      "type": "string",
+      "enum": [
+        "Invalid user creation: username/email already in use"
+      ]
+    },
+    "status": {
+      "id": "http://jsonschema.net/status",
+      "type": "string",
+      "enum": [
+        "Content creation failure"
+      ]
+    }
+  },
+  "required": [
+    "result",
+    "status"
+  ]
+}
+

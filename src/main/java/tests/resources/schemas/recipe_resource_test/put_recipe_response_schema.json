@@ -1,0 +1,110 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "/",
+  "type": "object",
+  "properties": {
+    "result": {
+      "id": "result",
+      "type": "object",
+      "properties": {
+        "recipe_id": {
+          "id": "recipe_id",
+          "type": "integer"
+        },
+        "dish_name": {
+          "id": "dish_name",
+          "type": "string"
+        },
+        "summary": {
+          "id": "summary",
+          "type": "string"
+        },
+        "serving": {
+          "id": "serving",
+          "type": "string"
+        },
+        "dish_image_url": {
+          "id": "dish_image_url",
+          "type": "string"
+        },
+        "user_id": {
+          "id": "user_id",
+          "type": "integer"
+        },
+        "user_name": {
+          "id": "user_name",
+          "type": "string"
+        },
+        "recipe_instructions": {
+          "id": "recipe_instructions",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "instruction_id": {
+                "id": "instruction_id",
+                "type": "integer"
+              },
+              "step_number": {
+                "id": "step_number",
+                "type": "integer"
+              },
+              "instruction": {
+                "id": "instruction",
+                "type": "string"
+              },
+              "image_url": {
+                "id": "image_url",
+                "type": "string"
+              }
+            }
+          }
+        },
+        "recipe_ingredients": {
+          "id": "recipe_ingredients",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "ingredient_id": {
+                "id": "ingredient_id",
+                "type": "integer"
+              },
+              "name": {
+                "id": "name",
+                "type": "string"
+              },
+              "amount": {
+                "id": "amount",
+                "type": "string"
+              },
+              "image_url": {
+                "id": "image_url",
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "required": [
+        "recipe_id",
+        "dish_name",
+        "summary",
+        "serving",
+        "dish_image_url",
+        "user_id",
+        "user_name",
+        "recipe_instructions",
+        "recipe_ingredients"
+      ]
+    },
+    "status": {
+      "id": "status",
+      "type": "string"
+    }
+  },
+  "required": [
+    "result",
+    "status"
+  ]
+}

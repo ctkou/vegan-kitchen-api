@@ -17,18 +17,19 @@ import java.util.stream.Collectors;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class Recipe extends model.mapping.tables.pojos.Recipe{
 
-    List<RecipeInstruction> recipeInstructionList = new ArrayList<>();
-    List<RecipeIngredient> recipeIngredientList = new ArrayList<>();
+    private String userName;
+    private List<RecipeInstruction> recipeInstructionList = new ArrayList<>();
+    private List<RecipeIngredient> recipeIngredientList = new ArrayList<>();
 
     public Recipe(){};
 
-    public Recipe(Integer recipeId, String dishName, String summary, String servingSize, String dishImageUrl, int authorUserId, int ingredientId) {
+    public Recipe(Integer recipeId, String dishName, String summary, String servingSize, String dishImageUrl, int userId) {
         setRecipeId(recipeId);
         setDishName(dishName);
         setSummary(summary);
         setServing(servingSize);
         setDishImageUrl(dishImageUrl);
-        setAuthorUserId(authorUserId);
+        setUserId(userId);
     }
 
     @Override
@@ -112,15 +113,25 @@ public class Recipe extends model.mapping.tables.pojos.Recipe{
     }
 
     @Override
-    @JsonProperty("author_id")
-    public Integer getAuthorUserId(){
-        return super.getAuthorUserId();
+    @JsonProperty("user_id")
+    public Integer getUserId(){
+        return super.getUserId();
     }
 
     @Override
-    @JsonProperty("author_id")
-    public void setAuthorUserId(Integer authorUserID){
-        super.setAuthorUserId(authorUserID);
+    @JsonProperty("user_id")
+    public void setUserId(Integer userID){
+        super.setUserId(userID);
+    }
+
+    @JsonProperty("user_name")
+    public String getUserName() {
+        return userName;
+    }
+
+    @JsonProperty("user_name")
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     @JsonProperty("recipe_instructions")

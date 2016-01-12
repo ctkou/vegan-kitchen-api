@@ -1,7 +1,5 @@
 package application.context;
 
-import model.User;
-
 import java.security.Principal;
 
 /**
@@ -9,10 +7,10 @@ import java.security.Principal;
  */
 public class SecurityContext implements javax.ws.rs.core.SecurityContext {
 
-    private User user;
+    private String userName;
 
-    public SecurityContext(User user) {
-        this.user = user;
+    public SecurityContext(String userName) {
+        this.userName = userName;
     }
 
     @Override
@@ -20,7 +18,7 @@ public class SecurityContext implements javax.ws.rs.core.SecurityContext {
         return new Principal() {
             @Override
             public String getName() {
-                return user.getUserName();
+                return userName;
             }
         };
     }

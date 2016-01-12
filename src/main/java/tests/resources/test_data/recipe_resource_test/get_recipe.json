@@ -4,7 +4,8 @@
   "summary": "summary 1",
   "serving": "serving 1",
   "dish_image_url": "dish.image.1.com",
-  "author_id": 1,
+  "user_id": 1,
+  "user_name": "adamkou",
   "recipe_instructions": [
     {
       "instruction_id": 1,

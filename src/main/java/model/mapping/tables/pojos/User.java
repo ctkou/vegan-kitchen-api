@@ -4,10 +4,11 @@
 package model.mapping.tables.pojos;
 
 
-import org.jooq.types.UInteger;
+import java.io.Serializable;
 
 import javax.annotation.Generated;
-import java.io.Serializable;
+
+import org.jooq.types.UInteger;
 
 
 /**

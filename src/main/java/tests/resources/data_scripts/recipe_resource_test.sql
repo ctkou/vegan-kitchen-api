@@ -1,9 +1,9 @@
 USE vegan_kitchen_api;
 INSERT INTO
-  `recipe` (`recipe_id`, `dish_name`, `summary`, `serving`, `dish_image_url`, `author_user_id`)
+  `recipe` (`recipe_id`, `dish_name`, `summary`, `serving`, `dish_image_url`, `user_id`)
 VALUES
   (1, "dish name 1", "summary 1", "serving 1", "dish.image.1.com", 1),
-  (2, "dish name 2", "summary 2", "serving 2", "dish.image.2.com", 1);
+  (2, "dish name 2", "summary 2", "serving 2", "dish.image.2.com", 2);
 INSERT INTO
   `recipe_instruction` (`recipe_id`, `instruction_id`, `step_number`, `instruction`, `image_url`)
 VALUES
@@ -20,3 +20,8 @@ VALUES
   (1, 3, "ingredient 3", "30 tons", "ingredient3.com"),
   (2, 4, "ingredient 4", "40 tons", "ingredient4.com"),
   (2, 5, "ingredient 5", "50 tons", "ingredient5.com");
+INSERT INTO
+  `user` (`user_id`, `user_name`, `email`, `password`)
+VALUES
+  (1, 'adamkou', 'adamkouct@gmail.com', '25f9e794323b453885f5181f1b624db'),
+  (2, 'wendywang', 'wendywangm@gmail.com', '25f9e794323b453885f5181f1b624db');

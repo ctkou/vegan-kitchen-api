@@ -1,53 +1,53 @@
 package rest.api;
 
-import application.context.SecurityContext;
 import application.filter.Authentication;
-import factory.response.RecipeResponseFactory;
+import builder.RecipeResponseBuilder;
 import model.Recipe;
 
-import javax.inject.Singleton;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
 
 @Path("recipe")
-@Singleton
 public class  RecipeResource {
 
     @GET
     @Path("all")
     @Produces("application/json")
-    public Response getAllRecipe() throws Exception{
-        return RecipeResponseFactory.buildGetAllRecipeResponse();
+    public Response getAllRecipe(@DefaultValue("10") @QueryParam("limit") int limit,
+                                 @DefaultValue("0") @QueryParam("offset") int offset,
+                                 @DefaultValue("dish_name") @QueryParam("order_by") String orderBy) throws Exception{
+        return RecipeResponseBuilder.buildGetAllRecipeResponse(limit, offset, orderBy);
     }
 
     @GET
     @Path("{recipe_id}")
     @Produces("application/json")
     public Response getRecipeById(@PathParam("recipe_id") int recipeId) throws Exception {
-        return RecipeResponseFactory.buildGetRecipeByIdResponse(recipeId);
+        return RecipeResponseBuilder.buildGetRecipeByIdResponse(recipeId);
     }
 
     @POST
+    @Authentication
     @Consumes("application/json")
     @Produces("application/json")
-    @Authentication
-    public Response createRecipe(Recipe recipe) throws Exception {
-        return RecipeResponseFactory.buildPostRecipeResponse(recipe);
+    public Response createRecipe(Recipe recipe, @Context SecurityContext securityContext) throws Exception {
+        return RecipeResponseBuilder.buildPostRecipeResponse(recipe, securityContext);
     }
 
     @PUT
+    @Authentication
     @Path("{recipe_id}")
     @Consumes("application/json")
     @Produces("application/json")
-    @Authentication
-    public Response putRecipe(@PathParam("recipe_id") Integer recipeId, Recipe recipeUpdate) throws Exception {
-        return RecipeResponseFactory.buildPutRecipeResponse(recipeId, recipeUpdate);
+    public Response putRecipe(@PathParam("recipe_id") Integer recipeId, Recipe recipeUpdate, @Context SecurityContext securityContext) throws Exception {
+        return RecipeResponseBuilder.buildPutRecipeResponse(recipeId, recipeUpdate, securityContext);
     }
 
     @DELETE
-    @Path("{recipe_id}")
     @Authentication
+    @Path("{recipe_id}")
     public Response deleteRecipe(@PathParam("recipe_id") Integer recipeId, @Context SecurityContext securityContext) {
         securityContext.getUserPrincipal();
         return null; // TODO

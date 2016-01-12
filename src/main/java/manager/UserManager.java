@@ -1,24 +1,17 @@
 package manager;
 
+import application.MyApplication;
 import exception.DatabaseException;
 import exception.InvalidUserCreationException;
-import exception.SessionNotFoundException;
-import factory.database.DataObjectFactory;
+import finder.AbstractFinder;
 import model.User;
-import model.mapping.tables.records.UserRecord;
 import org.jooq.Condition;
-import org.jooq.DSLContext;
-import org.jooq.SQLDialect;
-import org.jooq.exception.DataAccessException;
-import org.jooq.impl.DSL;
 import org.jooq.types.UInteger;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.sql.Connection;
-import java.sql.SQLException;
 
 import static model.mapping.tables.UserTable.USER;
 
@@ -41,7 +34,7 @@ public class UserManager {
     public User getUser(String userName, String password) throws DatabaseException {
         try {
             Condition condition = USER.USER_NAME.equal(userName).and(USER.PASSWORD.equal(getEncryptPassword(password)));
-            return DataObjectFactory.getDataObject(USER, condition, User.class);
+            return AbstractFinder.getDataObject(USER, condition, User.class);
         }
         catch (NoSuchAlgorithmException exception) {
             throw new DatabaseException("Unable access user data due to password encryption error.");
@@ -49,29 +42,30 @@ public class UserManager {
     }
     
     /**
-     * get user object based on user authorization token
-     * @param authorizationToken : authorization token of the user's login session
-     * @return return the corresponding user object if the authorization token is valid
+     * get user object based on user name
+     * @param userName : user name
+     * @return return the corresponding user object
      * @throws DatabaseException
      */
-    public User getUser(String authorizationToken) throws DatabaseException {
-        Condition condition = USER.AUTHORIZATION_TOKEN.equal(authorizationToken);
-        return DataObjectFactory.getDataObject(USER, condition, User.class);
+    public User getUser(String userName) throws DatabaseException {
+        Condition condition = USER.USER_NAME.equal(userName);
+        return AbstractFinder.getDataObject(USER, condition, User.class);
     }
 
     /**
      * create user account, password assumed to be encrypted
      * @param user : new user to be created by user
      */
-    public void createUser(User user) throws DatabaseException {
-        DataObjectFactory.storeDataObject(USER, user);
-        try (Connection connection = DataObjectFactory.getDatabaseConnection()) {
-            DSLContext create = DSL.using(connection, SQLDialect.MYSQL);
-            UserRecord userRecord = create.newRecord(USER, user);
-            userRecord.store();
-        }
-        catch (SQLException |DataAccessException |DatabaseException exception) {
-            throw new DatabaseException(DatabaseException.getDataRetrievalErrorMessage("failed insert new user into database."));
+    public void createUser(User user) throws InvalidUserCreationException {
+        try {
+            AbstractFinder.storeDataObject(USER, user);
+        } catch (DatabaseException exception) {
+            if (exception.getMessage().contains("Duplicate")) {
+                throw new InvalidUserCreationException("username/email already in use");
+            }
+            else {
+                throw new InvalidUserCreationException("Unexpected database error");
+            }
         }
     }
 
@@ -79,8 +73,8 @@ public class UserManager {
      * authenticate authorization token
      * @param authorization : authorization token issued in user login
      */
-    public void authenticateUser(String authorization) {
-        // TODO
+    public String authenticateUser(String authorization) {
+        return null; // TODO
     }
 
     /**
@@ -112,10 +106,11 @@ public class UserManager {
     public String login(String userName, String password) throws DatabaseException{
         // verity user name and password
         User user = getUser(userName, password);
-        user.setAuthorizationToken(generateAuthorizationToken());
         user.setLastAccess(UInteger.valueOf(System.currentTimeMillis() / 1000L));
-        DataObjectFactory.updateDataObject(USER, user);
-        return user.getAuthorizationToken();
+        AbstractFinder.updateDataObject(USER, user);
+        String authorization = generateAuthorizationToken();
+        MyApplication.memcachedManager.storeAuthorizationToken(userName, authorization);
+        return authorization;
     }
 
     /**
@@ -123,10 +118,7 @@ public class UserManager {
      * @param authorization : authorization token of existing session
      */
     public void logout(String authorization) throws DatabaseException{
-        User user = getUser(authorization);
-        user.setAuthorizationToken("");
-        user.setLastAccess(UInteger.valueOf(System.currentTimeMillis() / 1000L));
-        DataObjectFactory.updateDataObject(USER, user);
+        MyApplication.memcachedManager.removeAuthorizationToken(authorization);
     }
 
     /**
@@ -137,13 +129,13 @@ public class UserManager {
      */
     public void validateNewUser(User user) throws InvalidUserCreationException, DatabaseException {
         if (!isEmail(user.getEmail())) {
-            throw new InvalidUserCreationException("invalid email format.");
+            throw new InvalidUserCreationException("invalid email format");
         }
         else if (!isValidPassword(user.getPassword())) {
-            throw new InvalidUserCreationException("invalid password.");
+            throw new InvalidUserCreationException("invalid password");
         }
         else if (user.getUserId() != null) {
-            throw new InvalidUserCreationException("invalid attempt to supply user id for user creation.");
+            throw new InvalidUserCreationException("invalid attempt to supply user id for user creation");
         }
     }
 

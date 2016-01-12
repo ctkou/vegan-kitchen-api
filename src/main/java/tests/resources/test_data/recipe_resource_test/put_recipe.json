@@ -1,10 +1,8 @@
 {
-  "recipe_id": 2,
   "dish_name": "updated dish name 2",
   "summary": "updated summary 2",
   "serving": "updated serving 2",
   "dish_image_url": "updated.dish.image.2.com",
-  "author_id": 2,
   "recipe_instructions": [
     {
       "instruction_id": 3,

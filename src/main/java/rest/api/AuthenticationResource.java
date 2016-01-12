@@ -1,6 +1,6 @@
 package rest.api;
 
-import factory.response.AuthenticationResponseFactory;
+import builder.AuthenticationResponseBuilder;
 import model.User;
 
 import javax.inject.Singleton;
@@ -15,7 +15,7 @@ import javax.ws.rs.core.Response;
 @Singleton
 public class AuthenticationResource {
 
-    AuthenticationResponseFactory responseFactory = new AuthenticationResponseFactory();
+    AuthenticationResponseBuilder responseFactory = new AuthenticationResponseBuilder();
 
     @POST
     @Path("signup")
